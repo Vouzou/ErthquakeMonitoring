@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Plethora.Managers.EarthquakeManager;
 using Plethora.Managers.EarthquakeManager.Contracts.Data.DTO;
@@ -14,35 +14,13 @@ namespace Plethora
 
         /// <summary>
         /// Calls the service to initialize the earthquake data
-        /// Gets the earthquakes that happened the last hour
+        /// Gets the earthquakes that happened the last hours depending on the hoursBefore input
         /// </summary>
+        /// <param name="hoursBefore"></param>
         /// <returns></returns>
-        public static List<EarthquakeData> GetEarthuakeData()
+        public static List<EarthquakeData> GetEarthuakeData(int hoursBefore)
         {
-            var hour = DateTime.UtcNow.Hour - 1;
-            var day = DateTime.UtcNow.Day;
-            var month = DateTime.UtcNow.Month;
-            var year = DateTime.UtcNow.Year;
-            if (hour < 0)
-            {
-                day--;
-                hour += 24;
-            }
-            if (day <= 0)
-            {
-                month--;
-                if (month > 0)
-                {
-                    day = DateTime.DaysInMonth(year, month);
-                }
-            }
-            if (month <= 0)
-            {
-                month = 12;
-                year--;
-                day = DateTime.DaysInMonth(year, month);
-            }
-            StartTime = new DateTime(year, month, day, hour, DateTime.UtcNow.Minute, DateTime.UtcNow.Second, DateTimeKind.Utc);
+            StartTime = DateTime.UtcNow.AddHours(-hoursBefore);
             EndTime = DateTime.UtcNow;
             return GetEarthquakeActivity();
         }
@@ -50,11 +28,13 @@ namespace Plethora
         /// <summary>
         /// Calls the service to update the earthquake data
         /// </summary>
+        /// <param name="startTime"></param>
         /// <returns></returns>
-        public static List<EarthquakeData> UpdateEarthquakeData()
+        public static List<EarthquakeData> UpdateEarthquakeData(DateTime startTime)
         {
             //Update the time for the next iteration
-            StartTime = EndTime;
+            //Start Time should be the time of the latest earthquake
+            StartTime = startTime;
             EndTime = DateTime.UtcNow;
             return GetEarthquakeActivity();
         }
