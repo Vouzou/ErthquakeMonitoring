@@ -1,0 +1,14 @@
+﻿<Window x:Class="Plethora.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mvvm="http://prismlibrary.com/"
+        Title="Live Earthquake Activity" Height="500" Width="800" mvvm:ViewModelLocator.AutoWireViewModel="True"
+        Icon="PlethoraLogo.ico">
+    <StackPanel>
+        <Label Content="{Binding Title}" HorizontalAlignment="Center" FontSize="12"/>
+        <DataGrid ItemsSource="{Binding EarthquakeDataCollection}" RowBackground="LightYellow" 
+              AlternatingRowBackground="LightBlue" Background="LightGray" BorderBrush="Gray" BorderThickness="5"
+              RowHeight="30" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserAddRows="False"
+              CanUserDeleteRows="False" IsReadOnly="True"/>
+    </StackPanel>
+</Window>

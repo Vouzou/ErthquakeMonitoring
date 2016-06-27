@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="EarthquakeMonitoringInstaller" Language="1033" Version="1.0.0.0" Manufacturer="Plethora" UpgradeCode="ee0bfc35-4716-4bf2-b21b-8b8cc8efa38f">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="EarthquakeMonitoringInstaller" Level="1">
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id='ApplicationShortcutDesktop' />
+      <ComponentGroupRef Id="EARTHQUAKE_EXECUTABLES" />
+      <ComponentGroupRef Id="EARTHQUAKE_LIBRARIES"/>
+		</Feature>
+    
+    <Icon Id="ICON" SourceFile="PlethoraLogo.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="ICON" />
+
+    <DirectoryRef Id="ProgramMenuFolderApp">
+      <Component Id='ApplicationShortcut' Guid="*">
+        <Shortcut Id='ApplicationStartMenuShortcut'
+                  Name='Plethora Earthquake Manager'
+                  Description='Start Plethora Earthquake Monitor'
+                  Icon="ICON"
+                  Target="[INSTALLDIR]Plethora.exe"
+                  WorkingDirectory="INSTALLDIR" />
+        <RemoveFolder Id='ProgramMenuFolderApp' On='uninstall'/>
+        <RegistryValue Root='HKCU' Key="Software\Plethora\PlethoraEarthquakeManager" Name="InstalledApplicationShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id='ApplicationShortcutDesktop' Guid="*">
+        <Shortcut Id='ApplicationDesktopShortcut'
+                  Name='Plethora Earthquake Manager'
+                  Description='Start Plethora Earthquake Monitor'
+                  Icon="ICON"
+                  Target="[INSTALLDIR]Plethora.exe"
+                  WorkingDirectory="INSTALLDIR" />
+        <RemoveFolder Id='DesktopFolder' On='uninstall'/>
+        <RegistryValue Root='HKCU' Key="Software\Plethora\PlethoraEarthquakeManager" Name="InstalledDesktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+	</Product>
+  
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFiles64Folder">
+        <Directory Id='Plethora' Name='Plethora'>
+          <Directory Id="INSTALLDIR" Name="Earthqauke Monitoring App"/>
+        </Directory>
+			</Directory>
+      <Directory Id='ProgramMenuFolder' Name='Programs'>
+        <Directory Id='ProgramMenuFolderApp' Name="Plethora">
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder">
+    </Directory>
+		</Directory>
+	</Fragment>
+
+</Wix>

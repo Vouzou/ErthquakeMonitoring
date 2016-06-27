@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProductVersion>3.10</ProductVersion>
+    <ProjectGuid>a8a78fc2-34ff-4c2f-b63c-f1ca281dfbec</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>EarthquakeMonitoringInstaller</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <OutputPath>..\Binaries\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>..\Binaries\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="EarthquakeExecutablesFragments.wxs" />
+    <Compile Include="EarthquakeLibraryFragments.wxs" />
+    <Compile Include="Product.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CmdFiles" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CmdFiles\ParaffinRun.cmd" />
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EarthquakeManager\EarthquakeManager.csproj">
+      <Name>EarthquakeManager</Name>
+      <Project>{ad5b56f6-410f-4fa1-b1b6-a60ba0b07b03}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\ErthquakeManager.Contracts\EarthquakeManager.Contracts.csproj">
+      <Name>EarthquakeManager.Contracts</Name>
+      <Project>{836b5e77-e17e-4488-b8c0-77ae84d89c9a}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Plethora\PlethoraApp.csproj">
+      <Name>PlethoraApp</Name>
+      <Project>{0e1fccca-2686-49c9-8aef-4c3ab772c84e}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <Target Name="BeforeBuildInjection" AfterTargets="ResolveReferences" BeforeTargets="BeforeCompileAndLink">
+    <Message Text="BeforeBuildInjection" />
+    <ItemGroup>
+      <ParaffinExe Include="$(SolutionDir)packages\ParaffinBundler*\Paraffin.exe" />
+    </ItemGroup>
+    <Exec Command="%22$(ProjectDir)\CmdFiles\ParaffinRun.cmd%22 %22@(ParaffinExe)%22 %22$(ProjectDir)%22 %22$(ConfigurationName)%22" />
+  </Target>
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>
