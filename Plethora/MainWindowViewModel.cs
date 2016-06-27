@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -58,8 +58,15 @@ namespace Plethora
         /// </summary>
         private void UpdateEarthquakeData(object sender, EventArgs e)
         {
-            var earthquakeData = EarthquakeServiceHelper.UpdateEarthquakeData();
-            PopulateEarthquakeData(earthquakeData, true);
+            if (EarthquakeDataCollection.Count > 0)
+            {
+                //Update start time to be 1 second after the last earthquake
+                var startTime = EarthquakeDataCollection[0].DateTime.ToUniversalTime();
+                startTime = startTime.AddSeconds(1);
+                var earthquakeData =
+                    EarthquakeServiceHelper.UpdateEarthquakeData(startTime);
+                PopulateEarthquakeData(earthquakeData, true);
+            }
         }
 
         /// <summary>
