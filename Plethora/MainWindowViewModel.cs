@@ -13,6 +13,8 @@ namespace Plethora
 
         public MainWindowViewModel()
         {
+            _hoursBefore = 1;
+            _updateFrequencyInMinutes = 1;
             InitializeEarthquakeData();
         }
 
@@ -23,16 +25,23 @@ namespace Plethora
         /// </summary>
         private void InitializeEarthquakeData()
         {
-            var earthquakeData = EarthquakeServiceHelper.GetEarthuakeData();
+            var earthquakeData = EarthquakeServiceHelper.GetEarthuakeData(_hoursBefore);
             EarthquakeDataCollection = new ObservableCollection<EarthquakeDataModel>();
             PopulateEarthquakeData(earthquakeData, false);
             Title = "Earthquake Activity since " + EarthquakeServiceHelper.StartTime.ToLocalTime();
-            SetTimer(1);
+            SetTimer(_updateFrequencyInMinutes);
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Get data for the last _hoursBefore setting.
+        /// </summary>
+        private readonly int _hoursBefore;
+
+        private readonly int _updateFrequencyInMinutes;
 
         public ObservableCollection<EarthquakeDataModel> EarthquakeDataCollection
         {
