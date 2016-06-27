@@ -27,7 +27,7 @@ namespace Plethora
             EarthquakeDataCollection = new ObservableCollection<EarthquakeDataModel>();
             PopulateEarthquakeData(earthquakeData, false);
             Title = "Earthquake Activity since " + EarthquakeServiceHelper.StartTime.ToLocalTime();
-            SetTimer(5);
+            SetTimer(1);
         }
 
         #endregion
