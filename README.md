@@ -8,7 +8,7 @@ You can either run the project from Visual Studio or the executable from the Bin
 To use the installer double click at the "Binaries\Release\EarthquakeMonitoringInstaller.msi". This will install the software to your system in C:\Program Files\Plethora\Earthqauke Monitoring App and you can run the "Plethora.exe" from there.
 It will also create a Desktop shortcut and an application shortcut in the start menu. 
 
-The application monitors earthquake activity. The first time that is launched the earthquake activity of the last hour is displayed and then the application keeps monitoring. The feed is updated every 5 minutes.
+The application monitors earthquake activity. The first time that is launched the earthquake activity of the last hour is displayed and then the application keeps monitoring. The feed is updated every 1 minute.
 
 Dependencies:
 Wix for creating the installer.
@@ -17,3 +17,5 @@ Prism 6 for WPF to create the UI and the bindings.
 CommonServiceLocator, GeoJSON.Net and Json.Net.
 
 For questions email: Georgios.Vouzounaras@gmail.com
+
+If I had more time I would definetely add unit tests.
